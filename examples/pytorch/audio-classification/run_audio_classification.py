@@ -55,11 +55,11 @@ def random_subsample(wav: np.ndarray, max_length: float, sample_rate: int = 1600
     sample_length = int(round(sample_rate * max_length))  '''这里round 四舍五入 int 取整  sample_rate 指每秒采样 max_length 指最大时间'''
     if len(wav) <= sample_length:
         return wav
-    random_offset = randint(0, len(wav) - sample_length - 1)
-    return wav[random_offset : random_offset + sample_length]
+    random_offset = randint(0, len(wav) - sample_length - 1)''' 如果wav比较长 那么指定从0 到 末端开始随机选取指定的开始点'''
+    return wav[random_offset : random_offset + sample_length] '''从 random_offset 开始到一个sample_length长度'''
 
 
-@dataclass
+@dataclass ''' data class 调用装饰器 直接得到可以在命令行赋值的变量'''
 class DataTrainingArguments:
     """
     Arguments pertaining to what data we are going to input our model for training and eval.
@@ -201,7 +201,7 @@ def main():
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
     parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
-    if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
+    if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):     '''这里len（sys。argv)用来查看命令行到底传来了多少参数 sys.argv就是参数     '''
         # If we pass only one argument to the script and it's the path to a json file,
         # let's parse it to get our arguments.
         model_args, data_args, training_args = parser.parse_json_file(json_file=os.path.abspath(sys.argv[1]))
