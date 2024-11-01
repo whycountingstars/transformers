@@ -52,7 +52,7 @@ require_version("datasets>=1.14.0", "To fix: pip install -r examples/pytorch/aud
 
 def random_subsample(wav: np.ndarray, max_length: float, sample_rate: int = 16000):
     """Randomly sample chunks of `max_length` seconds from the input audio"""
-    sample_length = int(round(sample_rate * max_length))
+    sample_length = int(round(sample_rate * max_length))  '''这里round 四舍五入 int 取整  sample_rate 指每秒采样 max_length 指最大时间'''
     if len(wav) <= sample_length:
         return wav
     random_offset = randint(0, len(wav) - sample_length - 1)
