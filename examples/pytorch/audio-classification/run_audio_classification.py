@@ -266,7 +266,7 @@ def main():
     raw_datasets["eval"] = load_dataset(
         data_args.dataset_name,
         data_args.dataset_config_name,
-        split=data_args.eval_split_name,
+        split=data_args.eval_split_name, # raw 和 train dataset的区别在于eval_split_name不同于 train_split_name
         token=model_args.token,
         trust_remote_code=model_args.trust_remote_code,
     )
@@ -283,11 +283,11 @@ def main():
             f"--label_column_name {data_args.label_column_name} not found in dataset '{data_args.dataset_name}'. "
             "Make sure to set `--label_column_name` to the correct text column - one of "
             f"{', '.join(raw_datasets['train'].column_names)}."
-        )
+        )   #校对 raw_dataset 是否完全覆盖了所有column_name 
 
     # Setting `return_attention_mask=True` is the way to get a correctly masked mean-pooling over
     # transformer outputs in the classifier, but it doesn't always lead to better accuracy
-    feature_extractor = AutoFeatureExtractor.from_pretrained(
+    feature_extractor = AutoFeatureExtractor.from_pretrained(   #autofeature extractor 就是自动从预训练模型（路径）里面找出 attention_mask  对上
         model_args.feature_extractor_name or model_args.model_name_or_path,
         return_attention_mask=model_args.attention_mask,
         cache_dir=model_args.cache_dir,
